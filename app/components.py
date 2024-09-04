@@ -25,11 +25,6 @@ line = html.Hr()
 
 #RadioItem
 
-@callback(
-    Output(component_id='controls-radio', component_property='value'),   # Update with the histogram
-    [Input(component_id='controls-and-radio-item', component_property='value')]
-)
-
 def radioItemComponent(radioItemList):
     return dcc.RadioItems(
         id='controls-and-radio-item',

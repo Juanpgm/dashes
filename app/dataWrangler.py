@@ -8,6 +8,9 @@ dataset = da.df
 # Suponiendo que tienes un DataFrame llamado 'df'
 dataset = dataset.iloc[1:]
 
+
+
+
 ## ----------------------------------------------------------------------------------------------------------------------------------------
 
 column_names = {
@@ -100,13 +103,20 @@ def transformarDataset(data):  # Add data argument
 
 ## ----------------------------------------------------------------------------------------------------------------------------------------
 
-'''def filterDataset2DXYGraph(row):
-  x = dataset[row]
-  y = dataset[['PTO_INICIAL','PPTO_MODIFICADO','TOTAL_ACUMULADO_CDP','TOTAL_ACUMULADO_RPC', 
-              'TOTAL_ACUMUL_OBLIGAC','SALDOS_CDP','PPTO_DISPONIBLE',' CONTRACREDITOS',
-              ' CREDITOS','REDUCCIONES','ADICIONES','APLAZAMIENTO',' PAGOS',' EJECUCION']]
-  return x,y
-'''
+def convertCategoricalToNumeric(data):
+  numericVigencia = []
+  for vigencia in dataset['VIGENCIA']:
+    if vigencia == 'Actual':
+      numericVigencia.append(1)
+    elif vigencia == 'Recursos de Balance':
+      numericVigencia.append(2)
+    elif vigencia == 'Reserva':
+      numericVigencia.append(3)
+    else:
+      numericVigencia.append(0)
+      
+  return numericVigencia
+
 ## ----------------------------------------------------------------------------------------------------------------------------------------
 
 ### EJECUCIÓN DE FUNCIONES
@@ -114,7 +124,14 @@ def transformarDataset(data):  # Add data argument
 ## ----------------------------------------------------------------------------------------------------------------------------------------
 dataset = renombrar_columnas(dataset, column_names)
 dataset = transformarDataset(dataset)
+dataset['numericalVigencia'] = convertCategoricalToNumeric(dataset)
 
 ## ----------------------------------------------------------------------------------------------------------------------------------------
 #print(dataset.columns)
 #print(dataset.info())
+
+#print(convertCategoricalToNumeric(dataset))
+
+
+
+#print(dataset)

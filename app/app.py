@@ -5,9 +5,6 @@ import dataWrangler as dW
 import plotly.express as px
 import components
 
-def update_graph(X):
-    fig = px.histogram(df, x=X, y=df['PPTO_MODIFICADO'], histfunc='avg')
-    return fig
 
 # Incorporate data
 df = dW.dataset
@@ -23,26 +20,45 @@ app = Dash('Data Santiago de Cali')
 
 # App layout
 app.layout = [
-    components.titleComponent('INFORMACIÓN DISPONIBLE PROYECTO DE LA ALCALDÍA PMO v1.0'),
-    components.line,
-    #components.dropdownComponent(dropdownList),
     
-    ## Dropdown
+    html.Div(className='row', children='INFORMACIÓN DISPONIBLE PROYECTO DE LA ALCALDÍA PMO v1.0',
+             style={'textAlign': 'center', 'color': 'blue', 'fontSize': 30}),
+
+    components.line,
+    
+    html.H3("DATOS FINANCIEROS DE PROYECTO"),
+    html.H4("Filtro por organismo / entidad"),
+    
+      ## Dropdown
     dcc.Dropdown(
         id='dropdownValues',
-        options=[{'label': org, 'value': org} for org in financial],
+        options=[{'label': org, 'value': org} for org in dropdownList],
         value=dropdownList[0]),  # Set initial value
     
+    
+    ## Mostrar Valores Filtrados
+    
+    #### ESCRIBIR AQUÍ
+    
+          
     dcc.Graph(figure=px.histogram(df, x='NOMBRE_ORGANISMO', y='PPTO_MODIFICADO',
-                                  color='NOMBRE_ORGANISMO',height=800, width=1600)),
+                                  color='NOMBRE_ORGANISMO',height=1180, width=1300)),
     
-    components.line,
+    dcc.Graph(figure=px.bar(df, y='TOTAL_ACUMULADO_CDP', x='NOMBRE_ORGANISMO', 
+                                title='CDP ACUMULADO TOTAL POR ORGANISMO',
+                                color='NOMBRE_ORGANISMO',height=1180, width=1300)),
     
-    #Graph:
-    dcc.Graph(id='grafico'),
+    dcc.Graph(figure=px.pie(df, values='numericalVigencia', names='VIGENCIA',
+                                title='Distribución de Categorías',
+                                color='VIGENCIA',height=980, width=800)),
     
-    components.line,
-    #components.radioItemComponent(radioItemList),
+    dcc.Graph(figure=px.bar(df, x=' EJECUCION', y='PPTO_DISPONIBLE',
+                                title='Comparación de Ejecución vs. Presupuesto Disponible',
+                                labels={"EJECUCION": "Dinero Invertido", "PPTO_DISPONIBLE": "Presupuesto Disponible"},
+                                height=980, width=800)),
+    
+    
+    
     components.line,
     dash_table.DataTable(
         data=df.to_dict('records'),
@@ -53,29 +69,6 @@ app.layout = [
     
     #dcc.Graph(figure=px.histogram(df, x='NOMBRE_ORGANISMO', y='PPTO_MODIFICADO',color='NOMBRE_ORGANISMO',height=800, width=1600))
 ]
-
-@callback(
-    Output('grafico', 'figure'),
-    Input('dropdownValues', 'value'),
-    #[Input('controls-and-radio-item', 'value')]
-    )
-
-
-
-def update_graph(option_selected): 
-    filtered_df = df[df.NOMBRE_ORGANISMO==option_selected] 
-    fig = px.histogram(filtered_df,
-                    x = 'NOMBRE_ORGANISMO', y = 'PPTO_MODIFICADO',
-                       barmode='group', 
-                       color='NOMBRE_ORGANISMO',
-                       height=800, width=160, 
-                       histfunc='avg')
-    
-    fig.update_layout(title='Histograma Comparativo || Variables asociadas',
-                      transition_duration = 500)
-    
-    return fig
-    
 
 
 # Run the app
