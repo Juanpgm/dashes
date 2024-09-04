@@ -99,6 +99,16 @@ def transformarDataset(data):  # Add data argument
     return data
 
 ## ----------------------------------------------------------------------------------------------------------------------------------------
+
+'''def filterDataset2DXYGraph(row):
+  x = dataset[row]
+  y = dataset[['PTO_INICIAL','PPTO_MODIFICADO','TOTAL_ACUMULADO_CDP','TOTAL_ACUMULADO_RPC', 
+              'TOTAL_ACUMUL_OBLIGAC','SALDOS_CDP','PPTO_DISPONIBLE',' CONTRACREDITOS',
+              ' CREDITOS','REDUCCIONES','ADICIONES','APLAZAMIENTO',' PAGOS',' EJECUCION']]
+  return x,y
+'''
+## ----------------------------------------------------------------------------------------------------------------------------------------
+
 ### EJECUCIÓN DE FUNCIONES
 
 ## ----------------------------------------------------------------------------------------------------------------------------------------
