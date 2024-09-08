@@ -18,7 +18,16 @@ dfToDisplay = dW.datasetToBeDisplayed
 app = Dash('Data Santiago de Cali')
 
 ## -----------------------------------------------------------------------------------------------------------------
+####### FUNCIONA!! T__T
+@app.callback(
+    Output('table', 'data'),
+    Input('dropdownValues', 'value'))
 
+def update_table(selected_value):
+    filtered_df = df[df['NOMBRE_ORGANISMO'] == selected_value]
+    return filtered_df.to_dict('records')
+    
+## -----------------------------------------------------------------------------------------------------------------
 # App layout
 app.layout = [
     
@@ -43,7 +52,8 @@ app.layout = [
         columns=[{"name": i, "id": i} for i in dfToDisplay.columns],
         page_size=15,
         style_cell={'maxWidth': '250px', 'textOverflow': 'ellipsis'},  # Set max width and ellipsis
-        style_header={'backgroundColor': 'lightblue'}),  # Optional: Style header  
+        style_header={'backgroundColor': 'lightblue'},
+        id = 'table'),  # Optional: Style header  
     
     
     ## Mostrar Valores Filtrados
