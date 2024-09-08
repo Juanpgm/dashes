@@ -126,6 +126,15 @@ dataset = renombrar_columnas(dataset, column_names)
 dataset = transformarDataset(dataset)
 dataset['numericalVigencia'] = convertCategoricalToNumeric(dataset)
 
+
+datasetToBeDisplayed = dataset.drop(columns=['BPIN','BP','PROGRAMA','FONDO',
+                                             'NOMBRE_DE_FONDO','AREA FUNCIONAL', 
+                                             'NOMBRE AREA FUNCIONAL', 'POSPRE','NOMBRE POSPRE',
+                                             'VIGENCIA','TIPO_DE_GASTO','numericalVigencia'], errors='ignore')
+
+# Filter the DataFrame based on the "NOMBRE_ORGANISMO" column
+filteredByOrganism_df = dataset.query('NOMBRE_ORGANISMO == "Secretaría de Educación"')  # Replace "ORGANISMO_NAME" with the desired value
+
 ## ----------------------------------------------------------------------------------------------------------------------------------------
 #print(dataset.columns)
 #print(dataset.info())
